@@ -7,18 +7,25 @@ include "users.php";
 $users_obj=new users($mysql);
 
 $gss=isset($_SESSION['gss']) ? $_SESSION['gss'] : 0;
-if(isset($_GET['btnPressed'])) {
-    $pass = (isset($_GET['pass'])) ? $_GET['pass'] : "";
-    if (($gss < 4) && ($users_obj->IsValid($pass))) {
-        header("location:createUsers.php");
+    $correctPassword = "AAA";
+    $message = "";
+$gss=0;
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+        if (isset($_POST['pass']) && md5($_POST['pass']) === md5($correctPassword) && (($gss < 4)) ) {  // protection about brute force
+
+            header("location:createUsers.php");
+
+        } else {
+            $message = "סיסמה שגויה, אנא נסה שוב.";
+            echo $gss;
+            $gss++;
+        }
     }
-    else{
-        setcookie("MyUser",0);
-        echo "try again";
-        $gss++;
-    }
-}
-$_SESSION['gss']=$gss;
+    ?>
+
+    <p><?php echo $message; ?></p>
+
 
 ?>
 <!DOCTYPE html>
@@ -78,11 +85,10 @@ $_SESSION['gss']=$gss;
 <body>
 <div class="container">
     <h2>Login</h2>
-    <form action="" method="get">
-
-        <input type="password" name="pass" placeholder=" Enter a Password" />
-        <br>
-        <button name="btnPressed" value="1">Login</button>
+    <form action="" method="post">
+        <label for="pass">סיסמה:</label>
+        <input type="password" name="pass" id="pass" placeholder="הזן סיסמה" required>
+        <button type="submit">התחבר</button>
     </form>
 </div>
 </body>
