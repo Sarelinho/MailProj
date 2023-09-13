@@ -44,20 +44,40 @@ class users
         $phone_number = isset($params['phone_number']) ? $params['phone_number'] : "";
 
         if ($id > 0) {
-            $q = "UPDATE `users` SET  ";
-            $q .= "`username`='$name' , ";
-            $q .= "`valid_until`=' $mailbox_number'  ";
-            $q .= " WHERE id=  $phone_number ";
+            $q = "UPDATE `mailusers` SET ";
+            $q .= "id='$id' , ";
+            $q .= "name='$name' , ";
+            $q .= "mailbox_number= $mailbox_number , ";
+            $q .= "phone_number=  $phone_number ";
+            $q.= "WHERE id=$id";
+           $result = mysqli_query($this->mysql, $q);
 
-            $result = mysqli_query($this->mysql, $q);
         }
     }
-    public function GetUser($id){
-        $q  = "SELECT * FROM `users` ";
+
+    public function GetList()
+    {
+        $q  = "SELECT * FROM `mailusers` ";
+        $result = mysqli_query($this->mysql, $q);
+        $data=array();
+        while($row=mysqli_fetch_assoc($result)){
+            $data[]=$row;
+        }
+        return $data;
+    }
+    public function GetUser($id)
+    {
+        $q  = "SELECT * FROM `mailusers` ";
         $q .= " WHERE id=$id";
         $result = mysqli_query($this->mysql, $q);
-        $row=mysqli_fetch_assoc($result);
+        $row =mysqli_fetch_assoc($result);
         return $row;
+    }
+    public function  DeleteUser($id)
+    {
+        $q  = "DELETE  FROM `mailusers` ";
+        $q.= "WHERE id=$id";
+       $result = mysqli_query($this->mysql, $q);
     }
 
 

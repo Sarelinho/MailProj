@@ -106,8 +106,10 @@ $_SESSION['csrf_token'] = $csrfToken;
         <input type="text" name="mailbox_number" placeholder="<?php echo htmlspecialchars('Your Mailbox Number'); ?>" />
         <input type="text" name="phone_number" placeholder="<?php echo htmlspecialchars('Your Phone Number'); ?>" />
         <button name="SendBtn" value="1">Send</button>
-        <a href="edit_table.php">Edit the Table</a>
+        <a href="update_table.php">update the Table</a>
         <a href="read_table.php">Read the Table</a>
+        <a href="delete_table.php">delete the Table</a>
+
 
 
     </form>
