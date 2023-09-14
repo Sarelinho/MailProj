@@ -9,10 +9,9 @@ $users_obj=new users($mysql);
 $gss=isset($_SESSION['gss']) ? $_SESSION['gss'] : 0;
     $correctPassword = "AAA";
     $message = "";
-$gss=0;
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-        if (isset($_POST['pass']) && md5($_POST['pass']) === md5($correctPassword) && (($gss < 4)) ) {  // protection about brute force
+        if (isset($_POST['pass']) && $_POST['pass'] === $correctPassword&& (($gss < 4)) ) {  
 
             header("location:createUsers.php");
 
@@ -87,7 +86,7 @@ $gss=0;
     <h2>Login</h2>
     <form action="" method="post">
         <label for="pass">סיסמה:</label>
-        <input type="password" name="pass" id="pass" placeholder="הזן סיסמה" required>
+        <input type="password" name="pass" id="pass" placeholder="<?php echo htmlspecialchars(addslashes('Your Password'), ENT_QUOTES, 'UTF-8'); ?>" required>
         <button type="submit">התחבר</button>
     </form>
 </div>

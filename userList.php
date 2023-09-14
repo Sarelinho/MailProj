@@ -1,20 +1,28 @@
 <?php
 include "mysql_conn.php";
 $mysql_obj = new mysql_conn();
-$mysql=$mysql_obj->GetConn();
-
+$mysql = $mysql_obj->GetConn();
 include "users.php";
-$user_ubj = new users($mysql);
-if(isset($_GET['SendBtn'])) {
-    $user_ubj->UpdateUser($_GET);
-     header("location:./update_table.php");
+$user_obj = new users($mysql);
 
+session_start();
+
+if (isset($_POST['SendBtn'])) {
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        exit("CSRF token validation failed!");
+    }
+
+    $user_obj->UpdateUser($_POST);
+    header("location:./update_table.php");
 }
 
 $id = isset($_GET['rid']) ? $_GET['rid'] : -1;
-echo $id;
-$row=$user_ubj->GetUser($id);
+$row = $user_obj->GetUser($id);
+
+$csrf_token = bin2hex(openssl_random_pseudo_bytes(32));
+$_SESSION['csrf_token'] = $csrf_token;
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -80,11 +88,12 @@ $row=$user_ubj->GetUser($id);
 <body>
 <div class="container">
     <h1>Update User</h1>
-    <form action="" method="get">
-        <input type="text" name="id" value="<?= $row['id'] ?>" />
-        <input type="text" name="name" value="<?= $row['name'] ?>" />
-        <input type="text" name="mailbox_number" value="<?= $row['mailbox_number'] ?>" />
-        <input type="text" name="phone_number" value="<?= $row['phone_number'] ?>" />
+    <form action="" method="post">
+        <input type="hidden" name="csrf_token" value="<?= $csrf_token ?>" />
+        <input type="text" name="id" value="<?= htmlspecialchars($row['id']) ?>" />
+        <input type="text" name="name" value="<?= htmlspecialchars($row['name']) ?>" />
+        <input type="text" name="mailbox_number" value="<?= htmlspecialchars($row['mailbox_number']) ?>" />
+        <input type="text" name="phone_number" value="<?= htmlspecialchars($row['phone_number']) ?>" />
         <button name="SendBtn" value="1">Send</button>
     </form>
 </div>

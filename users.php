@@ -47,8 +47,8 @@ class users
             $q = "UPDATE `mailusers` SET ";
             $q .= "id='$id' , ";
             $q .= "name='$name' , ";
-            $q .= "mailbox_number= $mailbox_number , ";
-            $q .= "phone_number=  $phone_number ";
+            $q .= "mailbox_number= '$mailbox_number' , ";
+            $q .= "phone_number=  '$phone_number' ";
             $q.= "WHERE id=$id";
            $result = mysqli_query($this->mysql, $q);
 

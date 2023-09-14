@@ -75,7 +75,7 @@ $uList = $user_obj->GetList();
 </head>
 <body>
 <div class="container">
-    <h1>Update users</h1>
+    <h1>Update & delete users</h1>
     <table>
         <tr>
             <th></th>
@@ -85,18 +85,20 @@ $uList = $user_obj->GetList();
             <th>Phone Number</th>
         </tr>
         <?php
-        foreach ($uList as $row) { ?>
+        foreach ($uList as $row) {
+            ?>
             <tr>
                 <td><a href="./userList.php?rid=<?= $row['id'] ?>">Edit</a></td>
 
-                <td><?= htmlspecialchars($row['id'], ENT_QUOTES, 'UTF-8') ?> </td>
-                <td><?= htmlspecialchars($row['name'], ENT_QUOTES, 'UTF-8') ?></td>
-                <td><?= htmlspecialchars($row['mailbox_number'], ENT_QUOTES, 'UTF-8') ?></td>
-                <td><?= htmlspecialchars($row['phone_number'], ENT_QUOTES, 'UTF-8') ?></td>
+                <td><?= htmlspecialchars(addslashes($row['id']), ENT_QUOTES, 'UTF-8') ?></td>
+                <td><?= htmlspecialchars(addslashes($row['name']), ENT_QUOTES, 'UTF-8') ?></td>
+                <td><?= htmlspecialchars(addslashes($row['mailbox_number']), ENT_QUOTES, 'UTF-8') ?></td>
+                <td><?= htmlspecialchars(addslashes($row['phone_number']), ENT_QUOTES, 'UTF-8') ?></td>
                 <td><a href="./delete_table.php?rid=<?= $row['id'] ?>">Delete</a></td>
-
             </tr>
-        <?php } ?>
+            <?php
+        }
+        ?>
         <a href="./createUsers.php" class="return-link">Return to Create Users</a>
 
     </table>

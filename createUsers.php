@@ -16,8 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['csrf_token'])) {
         die("CSRF validation failed.");
     }
 }
-// html special chars defence agianst xss
-$csrfToken = bin2hex(openssl_random_pseudo_bytes(32)); // scrf Protection gettin token
+$csrfToken = bin2hex(openssl_random_pseudo_bytes(32)); //
 $_SESSION['csrf_token'] = $csrfToken;
 ?>
 
@@ -101,17 +100,13 @@ $_SESSION['csrf_token'] = $csrfToken;
     <h2>Create User</h2>
     <form action="" method="post">
         <input type="hidden" name="csrf_token" value="<?php echo $csrfToken; ?>" />
-        <input type="text" name="id" placeholder="<?php echo htmlspecialchars('Your ID'); ?>" />
-        <input type="text" name="name" placeholder="<?php echo htmlspecialchars('Your Name'); ?>" />
-        <input type="text" name="mailbox_number" placeholder="<?php echo htmlspecialchars('Your Mailbox Number'); ?>" />
-        <input type="text" name="phone_number" placeholder="<?php echo htmlspecialchars('Your Phone Number'); ?>" />
+        <input type="text" name="id" placeholder="<?php echo htmlspecialchars(addslashes('Your ID')); ?>" />
+        <input type="text" name="name" placeholder="<?php echo htmlspecialchars(addslashes('Your Name')); ?>" />
+        <input type="text" name="mailbox_number" placeholder="<?php echo htmlspecialchars(addslashes('Your Mailbox Number')); ?>" />
+        <input type="text" name="phone_number" placeholder="<?php echo htmlspecialchars(addslashes('Your Phone Number')); ?>" />
         <button name="SendBtn" value="1">Send</button>
-        <a href="update_table.php">update the Table</a>
+        <a href="update_table.php">update & delete users from the Table</a>
         <a href="read_table.php">Read the Table</a>
-        <a href="delete_table.php">delete the Table</a>
-
-
-
     </form>
 </div>
 </body>
