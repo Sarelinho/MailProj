@@ -8,7 +8,6 @@ class users
         $this->mysql=$conn;
     }
 
-        $p = "AAA";
     
     public function CreateUser($params){
         $id=isset($params['id']) ? $params['id'] : "";
